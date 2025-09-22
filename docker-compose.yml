@@ -1,0 +1,70 @@
+services:
+  nginx:
+    build: ./srcs/nginx
+    ports:
+      - "443:443"
+    volumes:
+      - ./srcs/nginx/conf:/etc/nginx/conf.d
+      - wp_data:/var/www/html:ro
+    depends_on:
+      - wordpress
+      - static
+    networks:
+      - inception
+  wordpress:
+    build: ./srcs/wordpress
+    environment:
+      - WORDPRESS_DB_HOST=mariadb
+      - WORDPRESS_DB_USER=wp_user
+      - WORDPRESS_DB_PASSWORD=example_pw
+      - WORDPRESS_DB_NAME=wordpress
+    volumes:
+      - wp_data:/var/www/html
+    depends_on:
+      - mariadb
+      - redis
+    networks:
+      - inception
+  mariadb:
+    build: ./srcs/mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=example_root_pw
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wp_user
+      - MYSQL_PASSWORD=example_pw
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - inception
+  redis:
+    build: ./srcs/redis
+    command: redis-server --requirepass example_redis_pw
+    networks:
+      - inception
+  static:
+    build: ./srcs/static
+    ports:
+      - "8080:80"
+    networks:
+      - inception
+  adminer:
+    build: ./srcs/adminer
+    environment:
+      - ADMINER_PORT=8081
+    command: php -S 0.0.0.0:8081 -t /var/www/html
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+  extra:
+    build: ./srcs/extra
+    networks:
+      - inception
+volumes:
+  db_data:
+  wp_data:
+networks:
+  inception:
+    driver: bridge

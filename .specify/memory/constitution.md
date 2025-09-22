@@ -1,50 +1,78 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+
+<!--
+Sync Impact Report
+Version change: 0.0.0 → 1.0.0
+Modified principles: All (template → concrete)
+Added sections: All principles, 42 Inception compliance
+Removed sections: None
+Templates requiring updates:
+✅ .specify/templates/plan-template.md
+✅ .specify/templates/spec-template.md
+✅ .specify/templates/tasks-template.md
+⚠ .specify/templates/commands/* (directory missing, none to update)
+Follow-up TODOs:
+- TODO(RATIFICATION_DATE): Set original ratification date
+--
+-- End Sync Impact Report --
+-->
+
+# Inception Project Constitution
+
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Containerization Best Practices
+All application components MUST be containerized using industry-standard tools (e.g., Docker). Images MUST be minimal, reproducible, and follow the principle of least privilege. Only required ports and files are exposed. Container builds MUST be automated and versioned.
+*Rationale: Ensures portability, security, and consistent environments across all deployments.*
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Security: No Secrets in Repo
+No secrets, credentials, or sensitive configuration values MAY be committed to the repository. All secrets MUST be managed via environment variables or secure secret management tools. Automated checks MUST be in place to prevent accidental secret leaks.
+*Rationale: Prevents credential leaks and enforces secure development practices.*
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Code Quality
+All code MUST pass linting, static analysis, and peer review before merging. Code style guides MUST be enforced. Technical debt and code smells MUST be tracked and remediated as part of the workflow.
+*Rationale: High code quality reduces bugs, improves maintainability, and supports team collaboration.*
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Reproducibility
+Builds, tests, and deployments MUST be fully reproducible. All dependencies MUST be pinned to specific versions. Infrastructure as Code (IaC) MUST be used for all environments. Documentation MUST enable any contributor to reproduce results from scratch.
+*Rationale: Guarantees that results and environments are consistent and auditable.*
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Infrastructure Testing
+All infrastructure code (Dockerfiles, Compose, IaC, etc.) MUST have automated tests. Tests MUST cover provisioning, configuration, and teardown. Infrastructure changes MUST NOT be merged without passing tests.
+*Rationale: Prevents regressions and ensures reliability of deployment environments.*
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### VI. Performance
+Performance targets MUST be defined for all critical components. Automated performance tests MUST be included in CI/CD. Performance regressions MUST block releases unless explicitly justified and approved.
+*Rationale: Maintains user experience and resource efficiency.*
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### VII. 42 Inception Compliance
+All work MUST comply with the official 42 Inception project requirements, including mandatory features, forbidden practices, and evaluation criteria. Any deviation MUST be documented and justified in the project documentation.
+*Rationale: Ensures project meets academic and grading standards.*
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+## Additional Constraints
+
+- All contributors MUST use the provided containerization and IaC templates unless a justified exception is approved.
+- All dependencies MUST be open source and compatible with project licensing.
+- All CI/CD pipelines MUST enforce the above principles.
+
+
+## Development Workflow
+
+- All code and infrastructure changes MUST be submitted via pull request.
+- Every pull request MUST pass all automated tests, security checks, and code quality gates before review.
+- At least one peer review and explicit approval is REQUIRED for all merges.
+- All releases MUST be tagged and documented.
+
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+- This constitution supersedes all other project practices and documentation.
+- Amendments require a documented proposal, peer review, and explicit approval by project maintainers.
+- All amendments MUST include a migration plan if breaking changes are introduced.
+- Constitution versioning follows semantic versioning: MAJOR for breaking/removal, MINOR for new/expanded, PATCH for clarifications.
+- Compliance reviews MUST be performed before each release and at the end of each project milestone.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+
+**Version**: 1.0.0 | **Ratified**: TODO(RATIFICATION_DATE): Set original ratification date | **Last Amended**: 2025-09-22
+<!-- Version: 1.0.0 | Ratified: TODO(RATIFICATION_DATE): Set original ratification date | Last Amended: 2025-09-22 -->

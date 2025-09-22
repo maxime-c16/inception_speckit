@@ -1,0 +1,1 @@
+Static site container serving HTML/CSS/JS. Exposes on internal network.

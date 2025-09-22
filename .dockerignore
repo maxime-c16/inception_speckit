@@ -1,0 +1,9 @@
+srcs/*/node_modules
+srcs/*/vendor
+*.log
+*.tmp
+.git
+.gitignore
+Dockerfile*
+.env
+secrets/*

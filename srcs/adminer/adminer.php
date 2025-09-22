@@ -1,0 +1,1 @@
+<?php // Placeholder for Adminer. Use official image.

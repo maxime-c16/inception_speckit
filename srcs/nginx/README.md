@@ -1,0 +1,1 @@
+NGINX container for TLS termination and reverse proxy. Exposes port 443. Uses config in conf/.

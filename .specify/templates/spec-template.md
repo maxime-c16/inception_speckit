@@ -48,7 +48,7 @@ When creating this spec from a user prompt:
    - Performance targets and scale
    - Error handling behaviors
    - Integration requirements
-   - Security/compliance needs
+   - Security/compliance needs (e.g., no secrets in repo, containerization, 42 Inception compliance)
 
 ---
 

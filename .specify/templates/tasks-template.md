@@ -13,11 +13,11 @@
    → contracts/: Each file → contract test task
    → research.md: Extract decisions → setup tasks
 3. Generate tasks by category:
-   → Setup: project init, dependencies, linting
-   → Tests: contract tests, integration tests
+   → Setup: project init, dependencies, linting, containerization, secret scanning
+   → Tests: contract tests, integration tests, infrastructure tests
    → Core: models, services, CLI commands
    → Integration: DB, middleware, logging
-   → Polish: unit tests, performance, docs
+   → Polish: unit tests, performance, docs, reproducibility
 4. Apply task rules:
    → Different files = mark [P] for parallel
    → Same file = sequential (no [P])
