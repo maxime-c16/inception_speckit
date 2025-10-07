@@ -1,0 +1,135 @@
+services:
+  # NGINX - Web server with TLS termination
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    environment:
+      DOMAIN_NAME: ${DOMAIN_NAME}
+    ports:
+      - "443:443"
+    volumes:
+      - ./requirements/nginx/conf:/etc/nginx/conf.d:ro
+      - wp_data:/var/www/html:ro
+    depends_on:
+      - wordpress
+    networks:
+      - inception
+    restart: always
+
+  # WordPress - Content Management System with php-fpm
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST:-mariadb}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      REDIS_HOST: ${REDIS_HOST:-redis}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    volumes:
+      - wp_data:/var/www/html
+    depends_on:
+      - mariadb
+      - redis
+    networks:
+      - inception
+    restart: always
+
+  # MariaDB - Database server
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - inception
+    restart: always
+
+  # Redis - Caching layer (Bonus)
+  redis:
+    build: ./requirements/bonus/redis
+    container_name: redis
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    networks:
+      - inception
+    restart: always
+
+  # FTP Server - File transfer (Bonus)
+  ftp:
+    build: ./requirements/bonus/ftp
+    container_name: ftp
+    environment:
+      FTP_USER: ${FTP_USER}
+      FTP_PASS: ${FTP_PASS}
+    ports:
+      - "21:21"
+      - "21000-21010:21000-21010"
+    volumes:
+      - wp_data:/home/${FTP_USER}/wordpress
+    networks:
+      - inception
+    restart: always
+
+  # Static Website - Non-PHP website (Bonus)
+  static:
+    build: ./requirements/bonus/static-site
+    container_name: static
+    ports:
+      - "8080:80"
+    networks:
+      - inception
+    restart: always
+
+  # Adminer - Database management UI (Bonus)
+  adminer:
+    build: ./requirements/bonus/adminer
+    container_name: adminer
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+    restart: always
+
+  # Portainer - Container management UI (Bonus - Extra service)
+  portainer:
+    build: ./requirements/bonus/portainer
+    container_name: portainer
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - inception
+    restart: always
+
+# Persistent volumes for data
+volumes:
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/macauchy/data/mariadb
+  wp_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/macauchy/data/wordpress
+  portainer_data:
+    driver: local
+
+# Custom bridge network
+networks:
+  inception:
+    driver: bridge
+    name: inception

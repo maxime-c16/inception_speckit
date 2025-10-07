@@ -1,1 +1,0 @@
-NGINX proxy rules: / → wordpress:9000, /static/ → static:8080. TLS certs in this directory.

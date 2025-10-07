@@ -1,3 +1,0 @@
-FROM mariadb:10.11.6
-EXPOSE 3306
-USER mysql

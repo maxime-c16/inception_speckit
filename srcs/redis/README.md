@@ -1,1 +1,0 @@
-Redis container for WordPress object cache. Secured with password.

@@ -3,34 +3,46 @@
 #  Makefile for Inception 42
 # =============================
 
-.PHONY: up down build clean logs ps restart test test-integration test-performance test-unit scan-secrets
+# Docker Compose file location
+DOCKER_COMPOSE = docker-compose -f srcs/docker-compose.yml
 
-# --- Docker Compose Orchestration ---
-up:
-	@echo "\033[1;32m[+] Starting all services...\033[0m"
-	docker-compose up -d
+.PHONY: all up down build clean fclean re logs ps restart test test-integration test-performance test-unit scan-secrets
 
-down:
-	@echo "\033[1;31m[-] Stopping all services...\033[0m"
-	docker-compose down
+# --- Main 42 Inception Targets ---
+all: build
 
 build:
 	@echo "\033[1;34m[~] Building all services...\033[0m"
-	docker-compose build
+	$(DOCKER_COMPOSE) build
+
+up:
+	@echo "\033[1;32m[+] Starting all services...\033[0m"
+	$(DOCKER_COMPOSE) up -d
+
+down:
+	@echo "\033[1;31m[-] Stopping all services...\033[0m"
+	$(DOCKER_COMPOSE) down
 
 clean:
 	@echo "\033[1;33m[!] Cleaning up containers, volumes, and orphans...\033[0m"
-	docker-compose down -v --remove-orphans
+	$(DOCKER_COMPOSE) down -v --remove-orphans
+
+fclean: clean
+	@echo "\033[1;33m[!] Full clean: removing all images, volumes, and networks...\033[0m"
+	$(DOCKER_COMPOSE) down -v --rmi all --remove-orphans
+	@docker system prune -af --volumes 2>/dev/null || true
+
+re: fclean all
 
 logs:
-	@docker-compose logs --tail=100 -f
+	@$(DOCKER_COMPOSE) logs --tail=100 -f
 
 ps:
-	@docker-compose ps
+	@$(DOCKER_COMPOSE) ps
 
 restart:
 	@echo "\033[1;35m[~] Restarting all services...\033[0m"
-	docker-compose restart
+	$(DOCKER_COMPOSE) restart
 
 # --- Test Orchestration ---
 test: test-integration test-performance test-unit

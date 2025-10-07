@@ -1,1 +1,0 @@
-MariaDB container for WordPress database. Uses persistent volume for data.

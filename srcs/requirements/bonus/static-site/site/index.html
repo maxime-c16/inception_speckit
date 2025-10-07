@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inception Project - Static Site</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        
+        h2 {
+            color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        li {
+            margin: 8px 0;
+            color: #555;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Inception Project</h1>
+        <p>Welcome to the static website service - a bonus component of the 42 Inception project!</p>
+        
+        <div class="info-box">
+            <strong>ℹ️ About This Service</strong><br>
+            This is a lightweight static website served by Lighttpd - a non-PHP web server as required by the bonus objectives.
+        </div>
+        
+        <h2>📋 Project Components</h2>
+        <p>This infrastructure includes:</p>
+        <ul>
+            <li><span class="badge">NGINX</span> TLS termination and reverse proxy</li>
+            <li><span class="badge">WordPress</span> Content management with php-fpm</li>
+            <li><span class="badge">MariaDB</span> Database server</li>
+            <li><span class="badge">Redis</span> Object caching (Bonus)</li>
+            <li><span class="badge">FTP</span> File transfer server (Bonus)</li>
+            <li><span class="badge">Static Site</span> This page! (Bonus)</li>
+            <li><span class="badge">Adminer</span> Database management UI (Bonus)</li>
+            <li><span class="badge">Portainer</span> Container management (Bonus)</li>
+        </ul>
+        
+        <h2>🔒 Security Features</h2>
+        <ul>
+            <li>TLS v1.2/v1.3 encryption</li>
+            <li>No secrets in repository</li>
+            <li>Environment-based configuration</li>
+            <li>Isolated container networking</li>
+        </ul>
+        
+        <h2>🐳 Docker Architecture</h2>
+        <p>All services run in isolated Docker containers with:</p>
+        <ul>
+            <li>Custom bridge network for inter-container communication</li>
+            <li>Persistent volumes for data</li>
+            <li>Automatic restart policies</li>
+            <li>Minimal base images (Debian/Alpine)</li>
+        </ul>
+        
+        <div class="info-box" style="border-left-color: #764ba2; margin-top: 30px;">
+            <strong>✨ 42 Inception Compliance</strong><br>
+            This project follows all mandatory requirements and implements 5+ bonus services.
+        </div>
+    </div>
+</body>
+</html>
