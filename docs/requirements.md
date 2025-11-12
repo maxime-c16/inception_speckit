@@ -26,5 +26,5 @@ Automation enforces this policy:
 ## Operational Notes
 
 - Run `make up` to build the images, prepare host data directories under `/home/macauchy/data`, and start the full stack.
-- Copy `.env.example` to `srcs/.env` and adjust the secrets before first use. Because `srcs/.env` is git-ignored, it stays local-only.
+- Copy `.env.example` to `srcs/.env`, rotate every secret, and ensure the administrator username still respects the “no admin substring” rule. Because `srcs/.env` is git-ignored, it stays local-only.
 - If Portainer reports missing Compose support, rebuild the `portainer` image; the Docker Compose v2 plugin is installed under both standard CLI plugin directories inside the container.

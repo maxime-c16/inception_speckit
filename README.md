@@ -101,6 +101,10 @@ All services run in isolated Docker containers connected through a custom bridge
    nano srcs/.env
    ```
 
+   - Rotate every secret value (database, Redis, FTP, WordPress) with strong, unique strings.
+   - Update `WORDPRESS_SITE_URL`, `WORDPRESS_TITLE`, and both WordPress user credential sets. The administrator username **must not** contain `admin`/`Admin`/`administrator`; the startup script exits if it does so you catch the issue early.
+   - Optionally keep a working copy at the repository root (`cp srcs/.env .env`) when running raw `docker-compose` commands outside the Makefile.
+
 3. **Add domain to /etc/hosts:**
    ```bash
    echo "127.0.0.1 macauchy.42.fr" | sudo tee -a /etc/hosts
@@ -129,6 +133,17 @@ make re       # Rebuild everything (fclean + build)
 make logs     # View service logs
 make ps       # List running containers
 ```
+
+**Rehearsal checklist (run before the defense):**
+
+1. `sudo make up` and wait until all containers report `running`.
+2. Visit every endpoint: `https://macauchy.42.fr`, `http://localhost:8080`, `http://localhost:8081`, and `http://localhost:9000`.
+3. Log into WordPress with the administrator user, create or edit a post, leave a comment, and confirm Redis cache status with `docker exec wordpress wp redis status --allow-root`.
+4. Test FTP access (`lftp -u $FTP_USER,$FTP_PASS localhost 21`) and upload a dummy file into `/wordpress`.
+5. Check MariaDB connectivity as both root and the application user (`docker exec mariadb mysql -uroot -p...`, etc.).
+6. `sudo make down`, then `sudo make up` (or reboot the VM) to confirm persistence of the changes.
+
+Keep a copy of `docker-compose --env-file srcs/.env -f srcs/docker-compose.yml logs` output handy in case evaluators request evidence of service readiness.
 
 ### Accessing Services
 
@@ -203,8 +218,7 @@ The NGINX container includes an entrypoint script that:
 │           ├── static-site/              # Static website
 │           └── portainer/                # Container management
 ├── secrets/                              # Secret files (not in git)
-├── docs/                                 # Requirement checklist and notes
-└── tests/                                # Test scripts
+└── docs/                                 # Requirement checklist and notes
 ```
 
 ## ✅ Compliance
