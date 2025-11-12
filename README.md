@@ -138,8 +138,10 @@ make ps       # List running containers
 - **Portainer**: http://localhost:9000
 
 **WordPress Users** (auto-created on first run):
-- Admin: `wpuser` / `${WP_ADMIN_PASSWORD}` (from .env)
-- Editor: `editor` / `${WP_USER_PASSWORD}` (from .env)
+- Admin: `${WORDPRESS_ADMIN_USER}` / `${WORDPRESS_ADMIN_PASSWORD}` (set in `srcs/.env`)
+- Editor: `${WORDPRESS_SECONDARY_USER}` / `${WORDPRESS_SECONDARY_USER_PASSWORD}` (set in `srcs/.env`)
+
+> ℹ️ The administrator username must **not** contain `admin`, `Admin`, or `administrator`. The startup scripts enforce this subject rule and will fail fast if the condition is violated.
 
 **Note:** Accept the self-signed TLS certificate in your browser.
 
@@ -167,8 +169,6 @@ The NGINX container includes an entrypoint script that:
 4. Sets proper permissions (644 for cert, 600 for key)
 5. Starts NGINX
 
-See [docs/SETUP_GUIDE.md](docs/SETUP_GUIDE.md) for detailed setup instructions.
-
 ### Container Security
 
 - Non-root users where possible
@@ -176,8 +176,6 @@ See [docs/SETUP_GUIDE.md](docs/SETUP_GUIDE.md) for detailed setup instructions.
 - Read-only volume mounts where appropriate
 - Isolated custom network
 - Automatic restart policies
-
-See [docs/security.md](docs/security.md) for detailed security documentation.
 
 ## 📁 Project Structure
 
@@ -205,7 +203,7 @@ See [docs/security.md](docs/security.md) for detailed security documentation.
 │           ├── static-site/              # Static website
 │           └── portainer/                # Container management
 ├── secrets/                              # Secret files (not in git)
-├── docs/                                 # Documentation
+├── docs/                                 # Requirement checklist and notes
 └── tests/                                # Test scripts
 ```
 
@@ -273,11 +271,7 @@ sudo lsof -i :8080
 
 ## 📚 Documentation
 
-- [Setup Guide](docs/SETUP_GUIDE.md) - Complete setup instructions including automatic certificate generation
-- [Compliance Report](docs/COMPLIANCE_REPORT.md) - Full 42 Inception requirements verification
-- [Security Strategy](docs/security.md) - Secret management and security practices
-- [Build & Deploy Guide](docs/BUILD_AND_DEPLOY.md) - Deployment instructions
-- [Course Materials](docs/Course/README.md) - Learning resources and solutions
+- [Requirement Checklist](docs/requirements.md) - Quick compliance overview and user policy reminder
 
 ## 🤝 Contributing
 

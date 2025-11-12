@@ -4,9 +4,10 @@
 # =============================
 
 # Docker Compose file location
-DOCKER_COMPOSE = docker-compose -f srcs/docker-compose.yml
+DOCKER_COMPOSE = docker-compose --env-file srcs/.env -f srcs/docker-compose.yml
+DATA_DIRS = /home/macauchy/data /home/macauchy/data/mariadb /home/macauchy/data/wordpress
 
-.PHONY: all up down build clean fclean re logs ps restart test test-integration test-performance test-unit scan-secrets
+.PHONY: all up down build clean fclean re logs ps restart test test-integration test-performance test-unit scan-secrets prepare-data-dirs
 
 # --- Main 42 Inception Targets ---
 all: build
@@ -15,7 +16,7 @@ build:
 	@echo "\033[1;34m[~] Building all services...\033[0m"
 	$(DOCKER_COMPOSE) build
 
-up:
+up: prepare-data-dirs
 	@echo "\033[1;32m[+] Starting all services...\033[0m"
 	$(DOCKER_COMPOSE) up -d
 
@@ -43,6 +44,15 @@ ps:
 restart:
 	@echo "\033[1;35m[~] Restarting all services...\033[0m"
 	$(DOCKER_COMPOSE) restart
+
+prepare-data-dirs:
+	@for dir in $(DATA_DIRS); do \
+		if [ ! -d $$dir ]; then \
+			echo "\033[1;34m[~] Creating data directory $$dir\033[0m"; \
+			mkdir -p $$dir; \
+		fi; \
+	done
+	@chmod 775 /home/macauchy/data /home/macauchy/data/mariadb /home/macauchy/data/wordpress 2>/dev/null || true
 
 # --- Test Orchestration ---
 test: test-integration test-performance test-unit

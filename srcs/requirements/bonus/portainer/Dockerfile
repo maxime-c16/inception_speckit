@@ -21,7 +21,15 @@ RUN useradd -r -s /bin/false portainer && \
 EXPOSE 9000
 
 # Run as portainer user
-USER portainer
+# Do not switch to a non-root user so Portainer can access the Docker socket bind-mounted from the host
+# Install Docker Compose CLI plugin so Portainer's compose deployer can initialize
+RUN mkdir -p /usr/libexec/docker/cli-plugins /usr/local/lib/docker/cli-plugins && \
+        wget -q -O /usr/libexec/docker/cli-plugins/docker-compose \
+            https://github.com/docker/compose/releases/download/v2.26.1/docker-compose-linux-x86_64 && \
+    chmod +x /usr/libexec/docker/cli-plugins/docker-compose && \
+    cp /usr/libexec/docker/cli-plugins/docker-compose /usr/local/lib/docker/cli-plugins/docker-compose && \
+    chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
+# Keep running as root so the container can access the host docker socket and the compose plugin
 # Start Portainer
 CMD ["/usr/local/bin/portainer", "--data", "/data"]

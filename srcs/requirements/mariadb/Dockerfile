@@ -21,8 +21,5 @@ RUN chmod +x /usr/local/bin/init-db.sh
 # Expose MariaDB port
 EXPOSE 3306
 
-# Switch to mysql user
-USER mysql
-
-# Run initialization script and start MariaDB
+# Run initialization script and start MariaDB as root (init script will manage permissions/start as needed)
 CMD ["/usr/local/bin/init-db.sh"]

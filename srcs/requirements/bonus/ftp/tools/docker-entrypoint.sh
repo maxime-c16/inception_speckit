@@ -2,10 +2,14 @@
 set -e
 
 # Create FTP user if it doesn't exist
-if ! id -u ${FTP_USER} > /dev/null 2>&1; then
-    useradd -m -d /home/${FTP_USER} -s /bin/bash ${FTP_USER}
+if ! id -u "${FTP_USER}" > /dev/null 2>&1; then
+    useradd -m -d "/home/${FTP_USER}" -s /bin/bash "${FTP_USER}"
     echo "${FTP_USER}:${FTP_PASS}" | chpasswd
 fi
+
+# Ensure WordPress directory exists for FTP access
+mkdir -p "/home/${FTP_USER}/wordpress"
+chown -R "${FTP_USER}:${FTP_USER}" "/home/${FTP_USER}"
 
 # Configure vsftpd
 cat > /etc/vsftpd.conf <<EOF
@@ -26,7 +30,7 @@ pasv_min_port=21000
 pasv_max_port=21010
 allow_writeable_chroot=YES
 user_sub_token=\$USER
-local_root=/home/\$USER
+local_root=/home/\$USER/wordpress
 EOF
 
 # Create necessary directories

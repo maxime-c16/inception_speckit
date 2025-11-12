@@ -30,6 +30,10 @@ RUN sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = 9000/' /etc/php/7.4/
     mkdir -p /run/php && \
     chown -R www-data:www-data /run/php
 
+# Ensure php-fpm can write logs when running as www-data
+RUN touch /var/log/php7.4-fpm.log && \
+    chown www-data:www-data /var/log/php7.4-fpm.log
+
 # Copy WordPress setup script
 COPY tools/setup-wordpress.sh /usr/local/bin/setup-wordpress.sh
 RUN chmod +x /usr/local/bin/setup-wordpress.sh
@@ -39,9 +43,6 @@ WORKDIR /var/www/html
 
 # Expose PHP-FPM port
 EXPOSE 9000
-
-# Run as www-data user
-USER www-data
 
 # Run setup script
 CMD ["/usr/local/bin/setup-wordpress.sh"]

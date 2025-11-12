@@ -2,6 +2,10 @@
 secrets/
 secrets/*
 
+# Environment files (local only)
+.env
+srcs/.env
+
 # Docker volumes and data
 **/data/
 *.log

@@ -1,8 +1,8 @@
 FROM debian:bullseye
 
-# Install NGINX and OpenSSL
+# Install NGINX, OpenSSL, and envsubst helper
 RUN apt-get update && \
-    apt-get install -y nginx openssl && \
+    apt-get install -y nginx openssl gettext-base && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -10,9 +10,9 @@ RUN apt-get update && \
 RUN mkdir -p /etc/nginx/ssl && \
     chown -R www-data:www-data /etc/nginx/ssl
 
-# Copy NGINX configuration
-COPY conf/nginx.conf /etc/nginx/nginx.conf
-COPY conf/default.conf /etc/nginx/conf.d/default.conf
+# Copy NGINX configuration template
+RUN mkdir -p /etc/nginx/templates
+COPY conf/default.conf /etc/nginx/templates/default.conf.template
 
 # Copy entrypoint script
 COPY tools/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
