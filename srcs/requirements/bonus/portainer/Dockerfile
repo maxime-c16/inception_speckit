@@ -1,35 +1,27 @@
 FROM debian:bullseye
 
-# Install wget and tar
+# Install dependencies
 RUN apt-get update && \
-    apt-get install -y wget tar && \
+    apt-get install -y wget tar ca-certificates curl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Download and install Portainer
-RUN wget https://github.com/portainer/portainer/releases/download/2.19.1/portainer-2.19.1-linux-amd64.tar.gz && \
-    tar -xvf portainer-2.19.1-linux-amd64.tar.gz && \
-    mv portainer/portainer /usr/local/bin/ && \
-    rm -rf portainer portainer-2.19.1-linux-amd64.tar.gz
+# Download and extract Portainer with all its assets
+RUN wget https://github.com/portainer/portainer/releases/download/2.11.1/portainer-2.11.1-linux-amd64.tar.gz && \
+    tar -xzf portainer-2.11.1-linux-amd64.tar.gz -C /usr/local && \
+    rm portainer-2.11.1-linux-amd64.tar.gz && \
+    chmod +x /usr/local/portainer/portainer && \
+    chmod +x /usr/local/portainer/docker-compose
 
-# Create portainer user
-RUN useradd -r -s /bin/false portainer && \
-    mkdir -p /data && \
-    chown -R portainer:portainer /data
+# Create data directory
+RUN mkdir -p /data
 
-# Expose Portainer port
+# Set up PATH to include Portainer binaries
+ENV PATH="/usr/local/portainer:$PATH"
+
+# Expose Portainer ports
 EXPOSE 9000
+EXPOSE 9443
 
-# Run as portainer user
-# Do not switch to a non-root user so Portainer can access the Docker socket bind-mounted from the host
-# Install Docker Compose CLI plugin so Portainer's compose deployer can initialize
-RUN mkdir -p /usr/libexec/docker/cli-plugins /usr/local/lib/docker/cli-plugins && \
-        wget -q -O /usr/libexec/docker/cli-plugins/docker-compose \
-            https://github.com/docker/compose/releases/download/v2.26.1/docker-compose-linux-x86_64 && \
-    chmod +x /usr/libexec/docker/cli-plugins/docker-compose && \
-    cp /usr/libexec/docker/cli-plugins/docker-compose /usr/local/lib/docker/cli-plugins/docker-compose && \
-    chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
-
-# Keep running as root so the container can access the host docker socket and the compose plugin
 # Start Portainer
-CMD ["/usr/local/bin/portainer", "--data", "/data"]
+CMD ["/usr/local/portainer/portainer", "--data", "/data"]

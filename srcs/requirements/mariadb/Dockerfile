@@ -16,7 +16,7 @@ COPY tools/init-db.sh /usr/local/bin/init-db.sh
 RUN chmod +x /usr/local/bin/init-db.sh
 
 # Copy MariaDB configuration if needed
-# COPY conf/my.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY conf/my.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # Expose MariaDB port
 EXPOSE 3306

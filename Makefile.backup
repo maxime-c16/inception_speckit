@@ -4,13 +4,13 @@
 # =============================
 
 # Docker Compose file location
-DOCKER_COMPOSE = docker-compose --env-file srcs/.env -f srcs/docker-compose.yml
+DOCKER_COMPOSE = docker-compose --env-file .env -f srcs/docker-compose.yml
 DATA_DIRS = /home/macauchy/data /home/macauchy/data/mariadb /home/macauchy/data/wordpress
 
 .PHONY: all up down build clean fclean re logs ps restart scan-secrets prepare-data-dirs
 
 # --- Main 42 Inception Targets ---
-all: build up
+all: build
 
 build:
 	@echo "\033[1;34m[~] Building all services...\033[0m"
@@ -27,11 +27,6 @@ down:
 clean:
 	@echo "\033[1;33m[!] Cleaning up containers, volumes, and orphans...\033[0m"
 	$(DOCKER_COMPOSE) down -v --remove-orphans
-
-fclean: clean
-	@echo "\033[1;33m[!] Performing full cleanup...\033[0m"
-	@rm -rf /home/macauchy/data/mariadb/* /home/macauchy/data/wordpress/* 2>/dev/null || true
-	sudo docker system prune -af --volumes
 
 restart:
 	@echo "\033[1;35m[~] Restarting all services...\033[0m"
