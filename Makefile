@@ -1,15 +1,18 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: macauchy <macauchy@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/11/14 18:40:35 by macauchy          #+#    #+#              #
+#    Updated: 2025/11/14 18:40:43 by macauchy         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-# =============================
-#  Makefile for Inception 42
-# =============================
-
-# Docker Compose file location
 DOCKER_COMPOSE = docker-compose --env-file srcs/.env -f srcs/docker-compose.yml
 DATA_DIRS = /home/macauchy/data /home/macauchy/data/mariadb /home/macauchy/data/wordpress
 
-.PHONY: all up down build clean fclean re logs ps restart scan-secrets prepare-data-dirs
-
-# --- Main 42 Inception Targets ---
 all: build up
 
 build:
@@ -33,6 +36,8 @@ fclean: clean
 	@rm -rf /home/macauchy/data/mariadb/* /home/macauchy/data/wordpress/* 2>/dev/null || true
 	@sudo docker system prune -af --volumes
 
+re: down build up
+
 restart:
 	@echo "\033[1;35m[~] Restarting all services...\033[0m"
 	$(DOCKER_COMPOSE) restart
@@ -46,5 +51,4 @@ prepare-data-dirs:
 	done
 	@chmod 775 /home/macauchy/data /home/macauchy/data/mariadb /home/macauchy/data/wordpress 2>/dev/null || true
 
-scan-secrets:
-	@echo "\033[1;33m[!] Run secret scanning (see .pre-commit-config.yaml or CI config)\033[0m"
+.PHONY: all build up down clean fclean re restart prepare-data-dirs
