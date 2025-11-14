@@ -1,125 +1,444 @@
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inception Project - Static Site</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 800px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-        
-        h1 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 2.5em;
-        }
-        
-        h2 {
-            color: #764ba2;
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-        
-        p {
-            line-height: 1.6;
-            color: #333;
-            margin-bottom: 15px;
-        }
-        
-        .info-box {
-            background: #f8f9fa;
-            border-left: 4px solid #667eea;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-        
-        ul {
-            margin-left: 20px;
-            margin-top: 10px;
-        }
-        
-        li {
-            margin: 8px 0;
-            color: #555;
-        }
-        
-        .badge {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.9em;
-            margin: 5px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🚀 Inception Project</h1>
-        <p>Welcome to the static website service - a bonus component of the 42 Inception project!</p>
-        
-        <div class="info-box">
-            <strong>ℹ️ About This Service</strong><br>
-            This is a lightweight static website served by Lighttpd - a non-PHP web server as required by the bonus objectives.
-        </div>
-        
-        <h2>📋 Project Components</h2>
-        <p>This infrastructure includes:</p>
-        <ul>
-            <li><span class="badge">NGINX</span> TLS termination and reverse proxy</li>
-            <li><span class="badge">WordPress</span> Content management with php-fpm</li>
-            <li><span class="badge">MariaDB</span> Database server</li>
-            <li><span class="badge">Redis</span> Object caching (Bonus)</li>
-            <li><span class="badge">FTP</span> File transfer server (Bonus)</li>
-            <li><span class="badge">Static Site</span> This page! (Bonus)</li>
-            <li><span class="badge">Adminer</span> Database management UI (Bonus)</li>
-            <li><span class="badge">Portainer</span> Container management (Bonus)</li>
-        </ul>
-        
-        <h2>🔒 Security Features</h2>
-        <ul>
-            <li>TLS v1.2/v1.3 encryption</li>
-            <li>No secrets in repository</li>
-            <li>Environment-based configuration</li>
-            <li>Isolated container networking</li>
-        </ul>
-        
-        <h2>🐳 Docker Architecture</h2>
-        <p>All services run in isolated Docker containers with:</p>
-        <ul>
-            <li>Custom bridge network for inter-container communication</li>
-            <li>Persistent volumes for data</li>
-            <li>Automatic restart policies</li>
-            <li>Minimal base images (Debian/Alpine)</li>
-        </ul>
-        
-        <div class="info-box" style="border-left-color: #764ba2; margin-top: 30px;">
-            <strong>✨ 42 Inception Compliance</strong><br>
-            This project follows all mandatory requirements and implements 5+ bonus services.
-        </div>
-    </div>
-</body>
-</html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Inception • Future-Proof Infrastructure 🌍💧</title>
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
+
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+
+                body {
+                    font-family: 'Segoe UI', 'Frutiger', 'Trebuchet MS', Arial, sans-serif;
+                    background:
+                        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.3) 0%, transparent 55%),
+                        radial-gradient(circle at 90% 90%, rgba(0,220,255,0.25) 0%, transparent 60%),
+                        radial-gradient(circle at 20% 80%, rgba(120,255,180,0.2) 0%, transparent 55%),
+                        linear-gradient(180deg, #5EC5FF 0%, #98E5FF 25%, #E6FFFF 50%, #B9F6CA 75%, #7BD67B 100%);
+                    min-height: 100vh;
+                    position: relative;
+                    overflow-x: hidden;
+                    overflow-y: auto;
+                    padding: 32px 16px;
+                }
+
+                /* Aurora band */
+                .aurora {
+                    position: fixed;
+                    inset: 0;
+                    background:
+                        linear-gradient(120deg, transparent 0%, rgba(0,255,204,0.18) 25%, rgba(0,204,255,0.18) 50%, rgba(0,153,255,0.18) 75%, transparent 100%);
+                    mix-blend-mode: screen;
+                    opacity: 0.8;
+                    pointer-events: none;
+                    animation: aurora-move 32s linear infinite;
+                    z-index: 0;
+                }
+
+                @keyframes aurora-move {
+                    0%   { transform: translateX(-25%) translateY(-5%); }
+                    50%  { transform: translateX(15%) translateY(5%); }
+                    100% { transform: translateX(-25%) translateY(-5%); }
+                }
+
+                /* Glassy orbs */
+                .orb {
+                    position: fixed;
+                    border-radius: 50%;
+                    background:
+                        radial-gradient(circle at 30% 25%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.4) 35%, transparent 70%),
+                        radial-gradient(circle at 70% 75%, rgba(0,180,255,0.4) 0%, transparent 60%);
+                    box-shadow:
+                        0 18px 45px rgba(0,120,200,0.35),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+                    pointer-events: none;
+                    z-index: 1;
+                }
+
+                .orb--xl { width: 260px; height: 260px; top: -60px; right: -40px; }
+                .orb--lg { width: 190px; height: 190px; bottom: 6%; left: 6%; }
+                .orb--sm { width: 130px; height: 130px; top: 40%; left: 12%; }
+
+                .orb--float-slow   { animation: orb-float-slow 40s ease-in-out infinite; }
+                .orb--float-medium { animation: orb-float-medium 26s ease-in-out infinite; }
+                .orb--float-fast   { animation: orb-float-fast 18s ease-in-out infinite; }
+
+                @keyframes orb-float-slow {
+                    0%, 100% { transform: translate(0, 0); }
+                    50%      { transform: translate(-20px, 30px); }
+                }
+
+                @keyframes orb-float-medium {
+                    0%, 100% { transform: translate(0, 0); }
+                    50%      { transform: translate(25px, -35px); }
+                }
+
+                @keyframes orb-float-fast {
+                    0%, 100% { transform: translate(0, 0); }
+                    50%      { transform: translate(-18px, -25px); }
+                }
+
+                /* Container */
+                .shell {
+                    position: relative;
+                    z-index: 5;
+                    max-width: 1040px;
+                    margin: 0 auto;
+                }
+
+                .panel {
+                    position: relative;
+                    background:
+                        linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.92) 40%, rgba(230,252,255,0.92) 100%);
+                    border-radius: 34px;
+                    padding: 40px 32px 36px;
+                    box-shadow:
+                        0 26px 70px rgba(0,120,200,0.28),
+                        0 0 0 1px rgba(255,255,255,0.8),
+                        inset 0 1px 0 rgba(255,255,255,1);
+                    backdrop-filter: blur(18px) saturate(160%);
+                    border: 1px solid rgba(210,240,255,0.95);
+                }
+
+                @media (min-width: 768px) {
+                    .panel {
+                        padding: 50px 56px 44px;
+                        border-radius: 40px;
+                    }
+                }
+
+                .panel::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 8%;
+                    right: 8%;
+                    height: 32%;
+                    background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, transparent 100%);
+                    border-radius: 40px 40px 0 0;
+                    pointer-events: none;
+                }
+
+                /* Header */
+                .header {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    margin-bottom: 28px;
+                    position: relative;
+                }
+
+                .title-row {
+                    display: flex;
+                    align-items: center;
+                    gap: 14px;
+                }
+
+                .logo-orb {
+                    width: 52px;
+                    height: 52px;
+                    border-radius: 50%;
+                    background:
+                        radial-gradient(circle at 30% 20%, #FFFFFF 0%, #E0FFFF 40%, transparent 75%),
+                        radial-gradient(circle at 75% 80%, #00CFFF 0%, transparent 70%);
+                    box-shadow:
+                        0 10px 22px rgba(0,160,220,0.4),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+                    flex-shrink: 0;
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .logo-orb::after {
+                    content: '';
+                    position: absolute;
+                    inset: 10%;
+                    border-radius: 50%;
+                    border: 1px solid rgba(255,255,255,0.8);
+                    box-shadow: 0 0 0 1px rgba(0,170,220,0.5);
+                }
+
+                h1 {
+                    font-size: clamp(2.2rem, 3vw, 2.8rem);
+                    font-weight: 700;
+                    letter-spacing: -0.04em;
+                    background: linear-gradient(135deg, #007ACC 0%, #00C6FF 40%, #00E5A0 80%);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    text-shadow:
+                        0 0 18px rgba(0,170,255,0.45),
+                        0 2px 4px rgba(0,60,90,0.55);
+                }
+
+                .subtitle {
+                    font-size: 1.02rem;
+                    color: #175064;
+                    line-height: 1.7;
+                }
+
+                .subtitle-em {
+                    color: #008FD6;
+                    font-weight: 600;
+                }
+
+                /* Info strip */
+                .strip {
+                    position: relative;
+                    margin: 22px 0 30px;
+                    padding: 14px 18px;
+                    border-radius: 999px;
+                    background:
+                        linear-gradient(135deg, rgba(0,196,255,0.22) 0%, rgba(0,230,180,0.18) 60%, rgba(255,255,255,0.55) 100%);
+                    box-shadow:
+                        0 10px 22px rgba(0,155,220,0.28),
+                        inset 0 1px 0 rgba(255,255,255,0.85);
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    gap: 10px 16px;
+                }
+
+                .strip-pill {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 5px 12px;
+                    border-radius: 999px;
+                    background: rgba(255,255,255,0.85);
+                    box-shadow: 0 1px 4px rgba(0,70,110,0.3);
+                    font-size: 0.88rem;
+                    color: #18607A;
+                    font-weight: 500;
+                }
+
+                .strip-dot {
+                    width: 7px;
+                    height: 7px;
+                    border-radius: 50%;
+                    background: radial-gradient(circle, #00C6FF 0%, #0084FF 60%);
+                    box-shadow: 0 0 10px rgba(0,180,255,0.9);
+                }
+
+                /* Sections */
+                .section {
+                    margin-top: 28px;
+                }
+
+                .section-title {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    margin-bottom: 14px;
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    color: #007EBB;
+                    text-shadow: 0 1px 3px rgba(0,120,190,0.25);
+                }
+
+                .section-glyph {
+                    width: 9px;
+                    height: 9px;
+                    border-radius: 50%;
+                    background: radial-gradient(circle, #00E0FF 0%, #00B0FF 60%);
+                    box-shadow:
+                        0 0 12px rgba(0,220,255,0.9),
+                        0 0 26px rgba(0,220,255,0.6);
+                }
+
+                .section p {
+                    color: #244456;
+                    line-height: 1.8;
+                    font-size: 0.98rem;
+                }
+
+                ul {
+                    margin-top: 10px;
+                    margin-left: 20px;
+                }
+
+                li {
+                    color: #294B5B;
+                    margin: 7px 0;
+                    line-height: 1.6;
+                    font-size: 0.97rem;
+                }
+
+                /* Service chips */
+                .chip-row {
+                    margin-top: 10px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                }
+
+                .chip {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 7px 14px;
+                    border-radius: 999px;
+                    background: linear-gradient(135deg, #00B0FF 0%, #00E5FF 40%, #00E4A0 100%);
+                    color: #FFFFFF;
+                    font-size: 0.88rem;
+                    font-weight: 600;
+                    box-shadow:
+                        0 6px 18px rgba(0,160,230,0.5),
+                        inset 0 1px 0 rgba(255,255,255,0.85);
+                    border: 1px solid rgba(255,255,255,0.75);
+                    text-shadow: 0 1px 3px rgba(0,60,110,0.7);
+                }
+
+                .chip-indicator {
+                    width: 6px;
+                    height: 6px;
+                    border-radius: 50%;
+                    background: #FFFFFF;
+                }
+
+                /* Compliance card */
+                .compliance {
+                    margin-top: 30px;
+                    padding: 18px 18px 16px;
+                    border-radius: 20px;
+                    background:
+                        linear-gradient(135deg, rgba(178,255,219,0.9) 0%, rgba(178,235,255,0.9) 45%, rgba(230,252,255,0.9) 100%);
+                    box-shadow:
+                        0 14px 34px rgba(0,170,160,0.28),
+                        inset 0 1px 0 rgba(255,255,255,0.9);
+                    border: 1px solid rgba(255,255,255,0.9);
+                }
+
+                .compliance-title {
+                    font-size: 1.02rem;
+                    color: #007E77;
+                    font-weight: 600;
+                    margin-bottom: 6px;
+                }
+
+                .compliance-text {
+                    font-size: 0.9rem;
+                    color: #165B53;
+                    line-height: 1.7;
+                }
+
+                .footer-note {
+                    margin-top: 26px;
+                    text-align: center;
+                    font-size: 0.86rem;
+                    color: #1A6074;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="aurora"></div>
+            <div class="orb orb--xl orb--float-slow"></div>
+            <div class="orb orb--lg orb--float-medium"></div>
+            <div class="orb orb--sm orb--float-fast"></div>
+
+            <main class="shell">
+                <section class="panel" aria-labelledby="inception-title">
+                    <header class="header">
+                        <div class="title-row">
+                            <div class="logo-orb" aria-hidden="true"></div>
+                            <h1 id="inception-title">Inception Infrastructure</h1>
+                        </div>
+                        <p class="subtitle">
+                            A self-contained Docker playground where
+                            <span class="subtitle-em">NGINX, WordPress, MariaDB</span> and friends live together on a
+                            bright, optimistic Web&nbsp;2.0 cloud.
+                        </p>
+                    </header>
+
+                    <div class="strip">
+                        <span class="strip-pill">
+                            <span class="strip-dot"></span>
+                            TLS&nbsp;1.2 / 1.3 only
+                        </span>
+                        <span class="strip-pill">
+                            <span class="strip-dot"></span>
+                            All services in Docker containers
+                        </span>
+                        <span class="strip-pill">
+                            <span class="strip-dot"></span>
+                            Mandatory + 5 bonus features
+                        </span>
+                    </div>
+
+                    <section class="section" aria-labelledby="section-services">
+                        <h2 id="section-services" class="section-title">
+                            <span class="section-glyph"></span>
+                            Eight connected services
+                        </h2>
+                        <p>
+                            Your virtual campus runs on a small constellation of containers, all talking together over a
+                            dedicated <strong>inception</strong> bridge network.
+                        </p>
+                        <div class="chip-row" aria-label="List of services">
+                            <span class="chip"><span class="chip-indicator"></span>NGINX · TLS proxy</span>
+                            <span class="chip"><span class="chip-indicator"></span>WordPress · PHP‑FPM</span>
+                            <span class="chip"><span class="chip-indicator"></span>MariaDB · SQL storage</span>
+                            <span class="chip"><span class="chip-indicator"></span>Redis · object cache</span>
+                            <span class="chip"><span class="chip-indicator"></span>FTP · file transfer</span>
+                            <span class="chip"><span class="chip-indicator"></span>Static site · this page</span>
+                            <span class="chip"><span class="chip-indicator"></span>Adminer · DB UI</span>
+                            <span class="chip"><span class="chip-indicator"></span>Portainer · Docker UI</span>
+                        </div>
+                    </section>
+
+                    <section class="section" aria-labelledby="section-security">
+                        <h2 id="section-security" class="section-title">
+                            <span class="section-glyph"></span>
+                            Security & isolation
+                        </h2>
+                        <p>
+                            The whole stack is wired to be reproducible, minimal and safe for a student virtual machine.
+                        </p>
+                        <ul>
+                            <li>TLS termination on NGINX (port&nbsp;443 only), with TLS&nbsp;1.2/1.3 enforced.</li>
+                            <li>Configuration provided through a <code>.env</code> file, not hard‑coded in the images.</li>
+                            <li>MariaDB hardened: no anonymous accounts, dedicated WordPress user, strong passwords.</li>
+                            <li>All services attached to the same custom bridge network instead of host networking.</li>
+                        </ul>
+                    </section>
+
+                    <section class="section" aria-labelledby="section-architecture">
+                        <h2 id="section-architecture" class="section-title">
+                            <span class="section-glyph"></span>
+                            Architecture at a glance
+                        </h2>
+                        <p>
+                            Under the glassy surface, everything is driven by <strong>Docker Compose&nbsp;3.8</strong> using only
+                            <strong>Debian Bullseye</strong> based images you build yourself from the project sources.
+                        </p>
+                        <ul>
+                            <li>WordPress and MariaDB store their data in bind‑mounted volumes under <code>/home/macauchy/data/</code>.</li>
+                            <li>Services are declared with <code>restart: always</code> so the lab comes back after a reboot.</li>
+                            <li>Redis accelerates WordPress by caching queries and objects in memory.</li>
+                            <li>The static site is served separately by Lighttpd as a non‑PHP bonus service.</li>
+                        </ul>
+                    </section>
+
+                    <aside class="compliance" aria-label="42 inception compliance summary">
+                        <div class="compliance-title">42 Inception compliance</div>
+                        <p class="compliance-text">
+                            All mandatory requirements are implemented: Docker‑only setup, no pre‑built images (except
+                            Debian), HTTPS‑only NGINX frontend, persistent WordPress and MariaDB data, and two WordPress
+                            users with a non‑“admin” administrator account. Five bonus services complete the picture:
+                            Redis, FTP, Adminer, Portainer and this static site.
+                        </p>
+                    </aside>
+
+                    <p class="footer-note">
+                        Built for the Inception project · Docker everywhere · Frutiger Aero vibes on top.
+                    </p>
+                </section>
+            </main>
+        </body>
+        </html>

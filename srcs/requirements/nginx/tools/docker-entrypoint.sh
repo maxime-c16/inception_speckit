@@ -1,13 +1,10 @@
 #!/bin/bash
 set -e
 
-# Get domain name from environment variable or use default
 DOMAIN_NAME=${DOMAIN_NAME:-macauchy.42.fr}
 
-# Render nginx configuration from template with the current domain
 envsubst '$DOMAIN_NAME' < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf
 
-# Generate self-signed TLS certificate if it doesn't exist
 if [ ! -f /etc/nginx/ssl/cert.pem ] || [ ! -f /etc/nginx/ssl/key.pem ]; then
     echo "Generating self-signed TLS certificate for ${DOMAIN_NAME}..."
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
@@ -24,5 +21,4 @@ else
     echo "Certificate already exists."
 fi
 
-# Start NGINX in foreground (nginx will drop privileges to www-data automatically)
 exec nginx -g 'daemon off;'

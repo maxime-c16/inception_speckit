@@ -31,7 +31,7 @@ clean:
 fclean: clean
 	@echo "\033[1;33m[!] Performing full cleanup...\033[0m"
 	@rm -rf /home/macauchy/data/mariadb/* /home/macauchy/data/wordpress/* 2>/dev/null || true
-	sudo docker system prune -af --volumes
+	@sudo docker system prune -af --volumes
 
 restart:
 	@echo "\033[1;35m[~] Restarting all services...\033[0m"
@@ -45,19 +45,6 @@ prepare-data-dirs:
 		fi; \
 	done
 	@chmod 775 /home/macauchy/data /home/macauchy/data/mariadb /home/macauchy/data/wordpress 2>/dev/null || true
-test-performance:
-	@echo "\033[1;36m[TEST] Running performance tests...\033[0m"
-	@for f in tests/performance/*.sh; do \
-	  echo "\033[1;36m→ $$f\033[0m"; \
-	  sh "$$f" || exit 1; \
-	done
-
-test-unit:
-	@echo "\033[1;36m[TEST] Running unit tests...\033[0m"
-	@for f in tests/unit/*.sh; do \
-	  echo "\033[1;36m→ $$f\033[0m"; \
-	  sh "$$f" || exit 1; \
-	done
 
 scan-secrets:
 	@echo "\033[1;33m[!] Run secret scanning (see .pre-commit-config.yaml or CI config)\033[0m"
