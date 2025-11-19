@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+### Ensure permissions on data directory (host bind mounts can change ownership)
+chown -R mysql:mysql /var/lib/mysql
+
+### Initialize database if it's empty
+if [ ! -d "/var/lib/mysql/mysql" ]; then
+    echo "Initializing MariaDB data directory..."
+    mysql_install_db --user=mysql --datadir=/var/lib/mysql
+fi
+
 ### Start MariaDB in the background for initialization
 mysqld_safe --skip-networking --nowatch &
 MYSQL_PID=$!

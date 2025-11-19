@@ -3,7 +3,9 @@ FROM debian:bullseye
 RUN apt-get update && \
     apt-get install -y nginx openssl gettext-base && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    rm -f /etc/nginx/sites-enabled/default && \
+    rm -f /etc/nginx/sites-available/default
 
 RUN mkdir -p /etc/nginx/ssl && \
     chown -R www-data:www-data /etc/nginx/ssl

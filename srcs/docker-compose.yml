@@ -7,6 +7,7 @@ services:
       DOMAIN_NAME: ${DOMAIN_NAME}
     ports:
       - "443:443"
+      - "80:80"
     volumes:
       - wp_data:/var/www/html:ro
     depends_on:
