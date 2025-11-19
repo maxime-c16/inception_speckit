@@ -1,11 +1,11 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 # Install PHP and required extensions for Adminer
 RUN apt-get update && \
     apt-get install -y \
-        php7.4 \
-        php7.4-mysql \
-        php7.4-mysqli \
+        php \
+        php-mysql \
+        php-mysqli \
         wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

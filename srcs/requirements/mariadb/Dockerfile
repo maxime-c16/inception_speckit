@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 RUN apt-get update && \
     apt-get install -y mariadb-server mariadb-client && \
@@ -7,7 +7,9 @@ RUN apt-get update && \
 
 RUN mkdir -p /var/run/mysqld && \
     chown -R mysql:mysql /var/run/mysqld && \
-    chmod 755 /var/run/mysqld
+    chmod 755 /var/run/mysqld && \
+    mkdir -p /var/log/mysql && \
+    chown -R mysql:mysql /var/log/mysql
 
 COPY tools/init-db.sh /usr/local/bin/init-db.sh
 RUN chmod +x /usr/local/bin/init-db.sh

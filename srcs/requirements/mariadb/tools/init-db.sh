@@ -11,7 +11,7 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
 fi
 
 ### Start MariaDB in the background for initialization
-mysqld_safe --skip-networking --nowatch &
+mysqld_safe --skip-networking --skip-syslog --nowatch &
 MYSQL_PID=$!
 
 ### Wait for MariaDB to start (socket up)
@@ -57,7 +57,7 @@ EOSQL
         # Stop the current server and restart with skip-grant-tables so we can write grants
         mysqladmin shutdown || true
         sleep 2
-        mysqld_safe --skip-networking --skip-grant-tables --nowatch &
+        mysqld_safe --skip-networking --skip-grant-tables --skip-syslog --nowatch &
         for i in {1..30}; do
             if mysqladmin ping --silent; then
                 echo "MariaDB (skip-grant-tables) is up"
@@ -82,7 +82,7 @@ EOSQL
         echo "Initialization SQL applied while skip-grant-tables enabled. Restarting MariaDB normally."
         mysqladmin shutdown || true
         sleep 2
-        mysqld_safe --skip-networking --nowatch &
+        mysqld_safe --skip-networking --skip-syslog --nowatch &
         for i in {1..30}; do
             if mysqladmin ping --silent; then
                 echo "MariaDB restarted normally"
@@ -104,4 +104,4 @@ mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown || mysqladmin -u root shu
 
 # Start MariaDB in foreground, binding to all interfaces so other containers can connect
 echo "Starting MariaDB..."
-exec mysqld_safe --bind-address=0.0.0.0
+exec mysqld_safe --bind-address=0.0.0.0 --skip-syslog

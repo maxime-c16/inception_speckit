@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 # Install lighttpd (simple, non-PHP web server)
 RUN apt-get update && \

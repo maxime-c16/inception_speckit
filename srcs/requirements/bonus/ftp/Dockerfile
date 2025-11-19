@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 # Install vsftpd FTP server
 RUN apt-get update && \
