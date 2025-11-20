@@ -16,7 +16,7 @@ SECONDARY_EMAIL=${WORDPRESS_SECONDARY_USER_EMAIL:-wpeditor@example.com}
 
 # Validate admin username requirement from subject
 if echo "${ADMIN_USER}" | grep -qi 'admin'; then
-    echo "[ERROR] WORDPRESS_ADMIN_USER (${ADMIN_USER}) must not contain 'admin' (per subject requirement)." >&2
+    echo "[ERROR] WORDPRESS_ADMIN_USER (${ADMIN_USER}) must not contain 'admin'." >&2
     exit 1
 fi
 

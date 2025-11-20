@@ -1,20 +1,16 @@
 #!/bin/bash
 set -e
 
-### Ensure permissions on data directory (host bind mounts can change ownership)
 chown -R mysql:mysql /var/lib/mysql
 
-### Initialize database if it's empty
 if [ ! -d "/var/lib/mysql/mysql" ]; then
     echo "Initializing MariaDB data directory..."
     mysql_install_db --user=mysql --datadir=/var/lib/mysql
 fi
 
-### Start MariaDB in the background for initialization
 mysqld_safe --skip-networking --skip-syslog --nowatch &
 MYSQL_PID=$!
 
-### Wait for MariaDB to start (socket up)
 echo "Waiting for MariaDB to start..."
 for i in {1..30}; do
     if mysqladmin ping --silent; then
@@ -25,20 +21,13 @@ for i in {1..30}; do
     sleep 1
 done
 
-### Helper: run SQL via root (no password)
 run_sql_no_auth() {
     mysql -u root "$@"
 }
 
-### Ensure permissions on data directory (host bind mounts can change ownership)
 chown -R mysql:mysql /var/lib/mysql
 
-### Check for database initialization marker file.
-# If /var/lib/mysql/.db_initialized does not exist, the database has not been initialized yet.
-# This ensures initialization logic only runs once, even if the container restarts.
 if [ ! -f "/var/lib/mysql/.db_initialized" ]; then
-    # Try a simple root command to see if root can run SQL
-    # Suppress output and errors to avoid clutter; only care about command success
     if run_sql_no_auth -e "SELECT 1;" >/dev/null 2>&1; then
         echo "Root login works, running initialization SQL"
         run_sql_no_auth <<-EOSQL
@@ -54,7 +43,6 @@ FLUSH PRIVILEGES;
 EOSQL
     else
         echo "Root login failed (access denied). Restarting server with --skip-grant-tables to initialize."
-        # Stop the current server and restart with skip-grant-tables so we can write grants
         mysqladmin shutdown || true
         sleep 2
         mysqld_safe --skip-networking --skip-grant-tables --skip-syslog --nowatch &
@@ -92,16 +80,13 @@ EOSQL
         done
     fi
 
-    # Create marker file to indicate successful initialization
     touch /var/lib/mysql/.db_initialized
     echo "Database ${MYSQL_DATABASE} initialization finished."
 else
     echo "Database ${MYSQL_DATABASE} already exists, skipping initialization."
 fi
 
-# Stop any background server started for initialization
 mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown || mysqladmin -u root shutdown || true
 
-# Start MariaDB in foreground, binding to all interfaces so other containers can connect
 echo "Starting MariaDB..."
 exec mysqld_safe --bind-address=0.0.0.0 --skip-syslog
